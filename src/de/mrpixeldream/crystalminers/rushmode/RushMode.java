@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class RushMode extends JavaPlugin {
 	
 	static RushMode instance;
-	ArrayList<RushSign> rushSigns = new ArrayList<>();
+	ArrayList<RushSign> rushSigns = new ArrayList<RushSign>();
 	
 	@Override
 	public void onEnable()

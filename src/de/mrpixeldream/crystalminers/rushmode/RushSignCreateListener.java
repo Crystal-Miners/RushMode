@@ -11,11 +11,11 @@ public class RushSignCreateListener implements Listener {
 	{
 		if (evt.getLine(0).equalsIgnoreCase("[Rush]"))
 		{
-			evt.setLine(0, "ง4[Rush]");
+			evt.setLine(0, "ยง4[Rush]");
 			evt.setLine(1, "Players: 0/0");
 			
 			RushMode.instance.rushSigns.add(new RushSign(evt.getBlock().getLocation()));
-			System.out.println("schild erstellt");
+			System.out.println("Schild erstellt");
 		}
 	}
 

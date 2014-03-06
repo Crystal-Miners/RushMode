@@ -13,16 +13,16 @@ public class RushSignRightClickListener implements Listener {
 	{
 		if (evt.getAction() == Action.RIGHT_CLICK_BLOCK && evt.getClickedBlock().getType() == Material.WALL_SIGN)
 		{
-			System.out.println("rechtsklick " + RushMode.instance.rushSigns.size());
+			System.out.println("Auswahl: " + RushMode.instance.rushSigns.size());
 			for (RushSign elem : RushMode.instance.rushSigns)
 			{
-				System.out.println("schild durchlauf");
+				System.out.println("Durchsuche Schilderdatenbank");
 				if (evt.getClickedBlock().getLocation().equals(elem.targetSign))
 				{
-					System.out.println("schild angeklickt");
+					System.out.println("Ein Schild wurde benutzt");
 					break;
 				}
-				System.out.println("no match");
+				System.out.println("Das Schild wurde nicht in der Datenbank gefunden");
 			}
 		}
 	}
