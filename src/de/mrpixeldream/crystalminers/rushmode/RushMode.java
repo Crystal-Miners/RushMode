@@ -1,6 +1,6 @@
 package de.mrpixeldream.crystalminers.rushmode;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -8,7 +8,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class RushMode extends JavaPlugin {
 	
 	static RushMode instance;
-	ArrayList<RushSign> rushSigns = new ArrayList<RushSign>();
+	Vector<RushSign> rushSigns = new Vector<>();
+	Vector<RushSign> waitingForLocation = new Vector<>();
+	Vector<RushSign> waitingForPlayerCount = new Vector<>();
 	
 	@Override
 	public void onEnable()

@@ -1,6 +1,8 @@
 package de.mrpixeldream.crystalminers.rushmode;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -17,9 +19,18 @@ public class RushSignRightClickListener implements Listener {
 			for (RushSign elem : RushMode.instance.rushSigns)
 			{
 				System.out.println("Durchsuche Schilderdatenbank");
-				if (evt.getClickedBlock().getLocation().equals(elem.targetSign))
+				if (evt.getClickedBlock().getLocation().equals(elem.targetSign.getLocation()))
 				{
-					System.out.println("Ein Schild wurde benutzt");
+					if (elem.playerCount < elem.maxPlayer)
+					{
+						evt.getPlayer().teleport(elem.targetSpawn);
+						elem.playerCount++;
+						((Sign) elem.targetSign.getState()).setLine(1, "Players: " + elem.playerCount + "/" + elem.maxPlayer);
+					}
+					else
+					{
+						evt.getPlayer().sendMessage(ChatColor.RED + "Diese Lobby ist voll!");
+					}
 					break;
 				}
 				System.out.println("Das Schild wurde nicht in der Datenbank gefunden");
