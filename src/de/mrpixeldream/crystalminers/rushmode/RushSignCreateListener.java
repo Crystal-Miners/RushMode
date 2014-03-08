@@ -2,7 +2,7 @@ package de.mrpixeldream.crystalminers.rushmode;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +13,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class RushSignCreateListener implements Listener {
 	
+	
+	BlockState sign;
+	RushSign rs;
 	@EventHandler
 	public void onSignCreate(SignChangeEvent evt)
 	{
@@ -21,9 +24,9 @@ public class RushSignCreateListener implements Listener {
 			evt.setLine(0, "§4[Rush]");
 			evt.setLine(1, "Players: 0/0");
 			
-			Block signBlock = evt.getBlock();
-			
-			RushMode.instance.waitingForLocation.add(new RushSign(signBlock));
+			sign = evt.getBlock().getState();
+			rs = new RushSign(evt.getBlock());
+			RushMode.instance.waitingForLocation.add(new RushSign(evt.getBlock()));
 			evt.getPlayer().sendMessage(ChatColor.GREEN + "Schild erstellt. Klicke nun mit einer Holzspitzhacke auf den Spawn.");
 		}
 	}
@@ -39,10 +42,9 @@ public class RushSignCreateListener implements Listener {
 				{
 					if (RushMode.instance.waitingForLocation.size() > 0)
 					{
-						RushSign sign = RushMode.instance.waitingForLocation.get(RushMode.instance.waitingForLocation.size() - 1);
-						sign.targetSpawn = evt.getClickedBlock().getLocation();
+						rs.targetSpawn = evt.getClickedBlock().getLocation();
 						RushMode.instance.waitingForLocation.remove(RushMode.instance.waitingForLocation.lastElement());
-						RushMode.instance.waitingForPlayerCount.addElement(sign);
+						RushMode.instance.waitingForPlayerCount.addElement(rs);
 						
 						evt.getPlayer().sendMessage(ChatColor.GREEN + "Bitte nun die maximale Spieleranzahl im Chat eingeben.");
 					}
@@ -64,13 +66,14 @@ public class RushSignCreateListener implements Listener {
 			{
 				int maxPlayers = Integer.parseInt(evt.getMessage());
 				evt.setCancelled(true);
-				RushSign sign = RushMode.instance.waitingForPlayerCount.lastElement();
-				sign.maxPlayer = maxPlayers;
-				
 				RushMode.instance.waitingForPlayerCount.remove(RushMode.instance.waitingForPlayerCount.lastElement());
-				RushMode.instance.rushSigns.addElement(sign);
-				
-				((Sign) sign.targetSign.getState()).setLine(1, "Players: 0/" + sign.maxPlayer);
+				rs.maxPlayer = maxPlayers;
+				((Sign) sign).setLine(0, "§4[Rush]");
+				((Sign) sign).setLine(1, "Players: 0/" + maxPlayers);
+				sign.update(true);
+				rs.sign = sign;
+				rs.targetSign = sign.getBlock();
+				RushMode.instance.rushSigns.addElement(rs);
 				
 				evt.getPlayer().sendMessage(ChatColor.GREEN + "Schild erfolgreich erstellt.");
 			}

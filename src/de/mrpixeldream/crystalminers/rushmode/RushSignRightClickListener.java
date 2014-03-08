@@ -25,7 +25,9 @@ public class RushSignRightClickListener implements Listener {
 					{
 						evt.getPlayer().teleport(elem.targetSpawn);
 						elem.playerCount++;
-						((Sign) elem.targetSign.getState()).setLine(1, "Players: " + elem.playerCount + "/" + elem.maxPlayer);
+						((Sign) elem.sign).setLine(1, "§4[Rush]");
+						((Sign) elem.sign).setLine(1, "Players: " + elem.playerCount + "/" + elem.maxPlayer);
+						elem.sign.update(true);
 					}
 					else
 					{
